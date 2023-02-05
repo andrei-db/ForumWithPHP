@@ -34,3 +34,15 @@ header{
     position: absolute;
     right: 30px;
 }
+
+/* register page */
+
+#register-header-message{
+    text-align: center;
+}
+#register-form{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
