@@ -1,0 +1,36 @@
+body{
+    margin: 0;
+}
+header{
+    background-color: grey;
+    height: 200px;
+    position: relative;
+}
+#navbar{
+    position: absolute;
+    bottom: 0;
+    background-color: #000;
+    width: 100%;
+    padding: 15px 0;
+   display: flex;
+}
+#navbar a{
+    color: #fff;
+    text-decoration: none;
+    font-size: 20px;
+    padding: 0 20px;
+    
+}
+#navbar a:hover{
+    color: #000;
+    background-color: #fff;
+}
+#nav-items{
+    position: relative;
+    left:30px;
+}
+
+#login-register{
+    position: absolute;
+    right: 30px;
+}
