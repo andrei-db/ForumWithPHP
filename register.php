@@ -8,14 +8,15 @@
 
 <body>
     <?php
-    $username = $email = $password = $confirm_password = "";
-    $usernameErr = $emailErr = $passwordErr = $confirm_passwordErr = "";
-    $usernamePass = $emailPass = $passwordPass = $confirm_passwordPass = true;
+    $username = $email = $password = $confirmPassword = "";
+    $usernameErr = $emailErr = $passwordErr = $confirmPasswordErr = "";
+    $usernamePass = $emailPass = $passwordPass = $confirmPasswordPass = true;
     $servername="localhost";
     $db_username="andreidb";
     $db_password="12345";
     $db_name="forumphp";
     $account_created_message="";
+    $hashPassword="";
     if ($_SERVER['REQUEST_METHOD'] == "POST") {
 
         if (empty(trim($_POST["username"]))) {
@@ -44,27 +45,29 @@
             $passwordPass=false;
         } else {
             $password = test_input($_POST["password"]);
+            $hashPassword=password_hash($password,PASSWORD_DEFAULT);
         }
         if (empty($_POST["confirm_password"])) {
-            $confirm_passwordErr = "Confirm Password is required";
-            $confirm_passwordPass=false;
+            $confirmPasswordErr = "Confirm Password is required";
+            $confirmPasswordPass=false;
         } else {
-            $confirm_password = test_input($_POST["confirm_password"]);
-            if (!empty($_POST["password"]) and $confirm_password == $password) {
-            } else if (!empty($_POST["password"]) and $confirm_password != $password) {
-                $confirm_passwordErr = "Passwords are not the same";
-                $confirm_passwordPass=false;
+            $confirmPassword = test_input($_POST["confirm_password"]);
+            $hashConfirmPassword=password_hash($confirmPassword,PASSWORD_DEFAULT);
+            if (!empty($_POST["password"]) and $confirmPassword == $password) {
+            } else if (!empty($_POST["password"]) and $confirmPassword != $password) {
+                $confirmPasswordErr = "Passwords are not the same";
+                $confirmPasswordPass=false;
             }
         }
 
-        if($usernamePass == true && $emailPass ==true &&  $passwordPass == true && $confirm_passwordPass == true){
+        if($usernamePass == true && $emailPass ==true &&  $passwordPass == true && $confirmPasswordPass == true){
             $db_connection=new mysqli($servername,$db_username,$db_password,$db_name);
 
             if($db_connection->connect_error){
                 die("Connection failed".$db_connection->connect_error);
             }
 
-            $sql_entry="INSERT INTO accounts (username,email,password) VALUES ('$username','$email','$password')";
+            $sql_entry="INSERT INTO accounts (username,email,password) VALUES ('$username','$email','$hashPassword')";
             if($db_connection->query($sql_entry)===true){
                 $account_created_message="Your account was succesfully created!";
             }else{
@@ -123,7 +126,7 @@
     echo '<p style="text-align:center;color:red;">' . $usernameErr . '</p>';
     echo '<p style="text-align:center;color:red;">' . $emailErr . '</p>';
     echo '<p style="text-align:center;color:red;">' . $passwordErr . '</p>';
-    echo '<p style="text-align:center;color:red;">' . $confirm_passwordErr . '</p>';
+    echo '<p style="text-align:center;color:red;">' . $confirmPasswordErr . '</p>';
     echo '<p style="text-align:center;">' . $account_created_message. '</p>';
     ?>
 
