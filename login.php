@@ -1,26 +1,42 @@
+<?php session_start();?>
 <!DOCTYPE html>
 <html>
 
 <head>
-    <title>Main page</title>
+    <title>Login page</title>
     <link rel="stylesheet" href="css/styles.css">
 </head>
 
 <body>
-    <header>
-        <nav id="navbar">
-            
-            <div id="nav-items">
-            <a href="index.php">Home</a>
-            <a href="search.php">Search</a>
-            </div>
-            <div id="login-register">
-                <a href="login.php">Login</a>
-                <a href="register.php">Register</a>
-            </div>
-        </nav>
-    </header>
+    <?php include "header.php"?>
+   
+ 
+ 
 
+    <h1 id="header-message">Login!</h1>
+    <div class="login-register-form">
+        <form method="post" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>">
+            <div>
+
+                <label for="username">Username: </label><br>
+                <input type="text" id="username" name="login_username"><br>
+            </div>
+            
+            <div>
+                <label for="password">Password: </label><br>
+                <input type="password" id="password" name="login_password"><br>
+            </div>
+          
+            <br>
+            <input type="submit">
+        </form>
+
+    </div>
+    <?php
+    
+    echo '<p style="text-align:center;">' .  $login_response. '</p>';
+    ?>   
+    <?php include "footer.php" ?>
 </body>
 
 </html>
